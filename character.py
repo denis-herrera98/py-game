@@ -5,32 +5,31 @@ import pygame
 
 class Character(pygame.sprite.Sprite):
 
-    def __init__(self):
-        super().__init__()
-        self._WIDTH = 200
-        self._HEIGHT = 200
-        self._image = pygame.transform.scale(pygame.image.load(os.path.join(
+    def __init__(self, width, height):
+        pygame.sprite.Sprite.__init__(self)
+        self._WIDTH = width
+        self._HEIGHT = height
+        # self.rect = pygame.Rect(300, 100, self._WIDTH, self._HEIGHT)
+
+        self.image = pygame.transform.scale(pygame.image.load(os.path.join(
             'Assets', 'cuca.png')), (self._WIDTH, self._HEIGHT))
-        self._rect = pygame.Rect(300, 100, self._WIDTH, self._HEIGHT)
+        self.rect = self.image.get_rect()
 
-    def draw(self, surface):
-        surface.blit(self._image, (self._rect.x, self._rect.y))
+    def update (self):
+        self.handle_movement()
 
-    def handle_movement(self, keys_pressed):
+    def handle_movement(self):
+
+        keys_pressed = pygame.key.get_pressed()
+
         if keys_pressed[pygame.K_w]:
-            self._rect.y -= 5
+            self.rect.y -= 5
 
         if keys_pressed[pygame.K_s]:
-            self._rect.y += 5
+            self.rect.y += 5
 
         if keys_pressed[pygame.K_a]:
-            self._rect.x -= 5
+            self.rect.x -= 5
 
         if keys_pressed[pygame.K_d]:
-            self._rect.x += 5
-
-    def get_Width(self):
-        return self._WIDTH
-
-    def get_Height(self):
-        return self._HEIGHT
+            self.rect.x += 5
